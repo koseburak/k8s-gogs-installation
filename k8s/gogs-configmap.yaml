@@ -6,4 +6,4 @@ metadata:
   labels:
     app: gogs
 data:
-  RUN_CROND: true
+  RUN_CROND: "true"
