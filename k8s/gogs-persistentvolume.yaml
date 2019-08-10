@@ -1,0 +1,33 @@
+# persistent volume for gogs server
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: gogs-pv-volume
+  namespace: devops
+  labels:
+    type: local
+    app: gogs
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 2Gi
+  accessModes:
+    - ReadWriteMany
+  hostPath:
+    path: "/mnt/kube-data/gogs"
+
+# persistent volume claim for gogs server
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: gogs-pv-claim
+  namespace: devops
+  labels:
+    app: gogs
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 2Gi

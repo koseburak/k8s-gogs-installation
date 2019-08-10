@@ -1,0 +1,31 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: gogs
+  namespace: devops
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: gogs
+    spec:
+      containers:
+        - name: gogs
+          image: gogs/gogs:0.11.86
+          imagePullPolicy: "IfNotPresent"
+          ports:
+            - containerPort: 3000
+              name: port-gogs-http
+            - containerPort: 22
+              name: port-gogs-ssh
+          envFrom:
+            - configMapRef:
+                name: gogs-config
+          volumeMounts:
+            - mountPath: /data
+              name: gogs-vol
+      volumes:
+        - name: gogs-vol
+          persistentVolumeClaim:
+            claimName: gogs-pv-claim
